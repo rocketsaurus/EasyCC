@@ -1,0 +1,412 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Settings</class>
+ <widget class="QDialog" name="Settings">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>654</width>
+    <height>230</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>415</width>
+    <height>185</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Settings</string>
+  </property>
+  <widget class="QDialogButtonBox" name="buttonBox">
+   <property name="geometry">
+    <rect>
+     <x>510</x>
+     <y>190</y>
+     <width>131</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+   <property name="standardButtons">
+    <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+   </property>
+  </widget>
+  <widget class="QWidget" name="verticalLayoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>0</y>
+     <width>631</width>
+     <height>181</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="settingsLayout">
+    <item>
+     <layout class="QHBoxLayout" name="fileSettingLayout">
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>4</number>
+      </property>
+      <property name="bottomMargin">
+       <number>10</number>
+      </property>
+      <item>
+       <widget class="QLabel" name="fileLabel">
+        <property name="text">
+         <string>Confidence Check File:</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="filepathEdit"/>
+      </item>
+      <item>
+       <widget class="QPushButton" name="browseFilesButton">
+        <property name="text">
+         <string>Browse</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="groupsLayout">
+      <item>
+       <widget class="QGroupBox" name="saGroupBox">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="title">
+         <string>Spectrum Analyzer</string>
+        </property>
+        <widget class="QWidget" name="formLayoutWidget">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>20</y>
+           <width>291</width>
+           <height>81</height>
+          </rect>
+         </property>
+         <layout class="QFormLayout" name="saForm">
+          <property name="verticalSpacing">
+           <number>15</number>
+          </property>
+          <property name="leftMargin">
+           <number>4</number>
+          </property>
+          <property name="topMargin">
+           <number>15</number>
+          </property>
+          <property name="rightMargin">
+           <number>4</number>
+          </property>
+          <property name="bottomMargin">
+           <number>4</number>
+          </property>
+          <item row="0" column="0">
+           <widget class="QRadioButton" name="saIPRadio">
+            <property name="text">
+             <string>TCP/IP</string>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+            <property name="autoExclusive">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLineEdit" name="saIPEdit"/>
+          </item>
+          <item row="1" column="0">
+           <widget class="QRadioButton" name="saGPIBRadio">
+            <property name="text">
+             <string>GPIB</string>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QSpinBox" name="saGPIBSpin"/>
+          </item>
+         </layout>
+        </widget>
+       </widget>
+      </item>
+      <item>
+       <widget class="QGroupBox" name="ctrlGroupBox">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="title">
+         <string>Controller</string>
+        </property>
+        <widget class="QWidget" name="formLayoutWidget_2">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>20</y>
+           <width>291</width>
+           <height>81</height>
+          </rect>
+         </property>
+         <layout class="QFormLayout" name="ctrlForm">
+          <property name="verticalSpacing">
+           <number>15</number>
+          </property>
+          <property name="leftMargin">
+           <number>4</number>
+          </property>
+          <property name="topMargin">
+           <number>15</number>
+          </property>
+          <property name="rightMargin">
+           <number>4</number>
+          </property>
+          <property name="bottomMargin">
+           <number>4</number>
+          </property>
+          <item row="0" column="0">
+           <widget class="QRadioButton" name="ctrlIPRadio">
+            <property name="text">
+             <string>TCP/IP</string>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLineEdit" name="ctrlIPEdit"/>
+          </item>
+          <item row="1" column="0">
+           <widget class="QRadioButton" name="ctrlGPIBRadio">
+            <property name="text">
+             <string>GPIB</string>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QSpinBox" name="ctrlGPIBSpin"/>
+          </item>
+         </layout>
+        </widget>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>Settings</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>278</x>
+     <y>180</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>150</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>Settings</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>346</x>
+     <y>180</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>286</x>
+     <y>150</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>browseFilesButton</sender>
+   <signal>clicked()</signal>
+   <receiver>Settings</receiver>
+   <slot>browseSlot()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>638</x>
+     <y>21</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>650</x>
+     <y>44</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>saIPRadio</sender>
+   <signal>clicked()</signal>
+   <receiver>Settings</receiver>
+   <slot>saIPSelectSlot()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>40</x>
+     <y>74</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>6</x>
+     <y>78</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>saGPIBRadio</sender>
+   <signal>clicked()</signal>
+   <receiver>Settings</receiver>
+   <slot>saGPIBSelectSlot()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>36</x>
+     <y>111</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>4</x>
+     <y>109</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>ctrlIPRadio</sender>
+   <signal>clicked()</signal>
+   <receiver>Settings</receiver>
+   <slot>ctrlIPSelectSlot()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>348</x>
+     <y>77</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>327</x>
+     <y>76</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>ctrlGPIBRadio</sender>
+   <signal>clicked()</signal>
+   <receiver>Settings</receiver>
+   <slot>ctrlGPIBSelectSlot()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>357</x>
+     <y>107</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>327</x>
+     <y>108</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>saIPEdit</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>Settings</receiver>
+   <slot>saIPSelectSlot()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>108</x>
+     <y>78</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>59</x>
+     <y>32</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>saGPIBSpin</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>Settings</receiver>
+   <slot>saGPIBSelectSlot()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>152</x>
+     <y>108</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>140</x>
+     <y>31</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>ctrlIPEdit</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>Settings</receiver>
+   <slot>ctrlIPSelectSlot()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>454</x>
+     <y>79</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>423</x>
+     <y>33</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>ctrlGPIBSpin</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>Settings</receiver>
+   <slot>ctrlGPIBSelectSlot()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>497</x>
+     <y>109</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>478</x>
+     <y>32</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>browseSlot()</slot>
+  <slot>saIPSelectSlot()</slot>
+  <slot>saGPIBSelectSlot()</slot>
+  <slot>ctrlIPSelectSlot()</slot>
+  <slot>ctrlGPIBSelectSlot()</slot>
+ </slots>
+</ui>

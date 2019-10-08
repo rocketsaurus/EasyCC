@@ -1,0 +1,447 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Factors</class>
+ <widget class="QDialog" name="Factors">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>576</width>
+    <height>485</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>300</width>
+    <height>300</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Factors</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout" columnstretch="0,0,0,0,0,0,0">
+   <property name="horizontalSpacing">
+    <number>4</number>
+   </property>
+   <property name="verticalSpacing">
+    <number>1</number>
+   </property>
+   <item row="1" column="3">
+    <widget class="QLineEdit" name="preampEdit"/>
+   </item>
+   <item row="2" column="4" colspan="3" alignment="Qt::AlignRight">
+    <widget class="QPushButton" name="cableButton">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>Browse</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="3">
+    <widget class="QLineEdit" name="cableEdit"/>
+   </item>
+   <item row="3" column="0" colspan="3">
+    <widget class="QLabel" name="attenuatorLabel">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>75</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>Attenuator/Limiter</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="0" colspan="7">
+    <widget class="QTableView" name="factorTable">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="lineWidth">
+      <number>1</number>
+     </property>
+     <property name="showGrid">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="5" colspan="2" alignment="Qt::AlignRight">
+    <widget class="QPushButton" name="preampButton">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>Browse</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0" colspan="2">
+    <widget class="QLabel" name="antennaLabel">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>75</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>Antenna</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="3">
+    <widget class="QLineEdit" name="lisnEdit"/>
+   </item>
+   <item row="0" column="5" colspan="2" alignment="Qt::AlignRight">
+    <widget class="QPushButton" name="antennaButton">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>Browse</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0" colspan="2">
+    <widget class="QLabel" name="preampLabel">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>75</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>Preamp</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="6" alignment="Qt::AlignRight">
+    <widget class="QPushButton" name="attenuatorButton">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>Browse</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="3">
+    <widget class="QLineEdit" name="antennaEdit"/>
+   </item>
+   <item row="3" column="3">
+    <widget class="QLineEdit" name="attenuatorEdit"/>
+   </item>
+   <item row="4" column="6">
+    <widget class="QPushButton" name="lisnButton">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>Browse</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0">
+    <widget class="QLabel" name="cableLabel">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>75</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>Cable</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="0">
+    <widget class="QLabel" name="lisnLabel">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>75</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>LISN</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="2" colspan="3">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <tabstops>
+  <tabstop>antennaButton</tabstop>
+  <tabstop>preampButton</tabstop>
+  <tabstop>cableButton</tabstop>
+  <tabstop>attenuatorButton</tabstop>
+ </tabstops>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>Factors</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>337</x>
+     <y>478</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>Factors</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>390</x>
+     <y>478</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>286</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>antennaButton</sender>
+   <signal>clicked()</signal>
+   <receiver>Factors</receiver>
+   <slot>browseAntennaSlot()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>569</x>
+     <y>22</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>337</x>
+     <y>65</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>preampButton</sender>
+   <signal>clicked()</signal>
+   <receiver>Factors</receiver>
+   <slot>browsePreampSlot()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>569</x>
+     <y>40</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>341</x>
+     <y>113</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cableButton</sender>
+   <signal>clicked()</signal>
+   <receiver>Factors</receiver>
+   <slot>browseCableSlot()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>569</x>
+     <y>58</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>330</x>
+     <y>171</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>attenuatorButton</sender>
+   <signal>clicked()</signal>
+   <receiver>Factors</receiver>
+   <slot>browseAttenuatorSlot()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>569</x>
+     <y>76</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>356</x>
+     <y>217</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>lisnButton</sender>
+   <signal>clicked()</signal>
+   <receiver>Factors</receiver>
+   <slot>browseLisnSlot()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>547</x>
+     <y>87</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>573</x>
+     <y>84</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>antennaEdit</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>Factors</receiver>
+   <slot>updateFactorsSlot()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>233</x>
+     <y>13</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>253</x>
+     <y>2</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>preampEdit</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>Factors</receiver>
+   <slot>updateFactorsSlot()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>120</x>
+     <y>35</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>85</x>
+     <y>32</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cableEdit</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>Factors</receiver>
+   <slot>updateFactorsSlot()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>143</x>
+     <y>54</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>83</x>
+     <y>57</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>attenuatorEdit</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>Factors</receiver>
+   <slot>updateFactorsSlot()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>106</x>
+     <y>69</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>70</x>
+     <y>75</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>lisnEdit</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>Factors</receiver>
+   <slot>updateFactorsSlot()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>122</x>
+     <y>87</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>90</x>
+     <y>87</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>updateFactorsSlot()</slot>
+  <slot>browseAntennaSlot()</slot>
+  <slot>browsePreampSlot()</slot>
+  <slot>browseCableSlot()</slot>
+  <slot>browseAttenuatorSlot()</slot>
+  <slot>browseLisnSlot()</slot>
+ </slots>
+</ui>
