@@ -20,7 +20,7 @@ class MplWidget(QWidget):
         if x:
             self.mplPlot.set_xlabel(x)
         if y:
-            self.mplPlot.set_ylabel(x)
+            self.mplPlot.set_ylabel(y)
 
     def setAutoScale(self, on=True):
         self.mplPlot.set_autoscalex_on(on)

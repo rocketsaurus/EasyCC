@@ -3,6 +3,7 @@ import shelve
 from pathlib import Path
 
 from PyQt5 import QtCore, QtWidgets
+from PyQt5.QtCore import QThread, pyqtSignal
 from matplotlib.animation import FuncAnimation
 import numpy as np
 import pandas as pd
@@ -14,6 +15,20 @@ from factors import FactorsView
 from settings import SettingsView
 import constants
 
+class AntennaSweepThread(QThread):
+    signal = pyqtSignal('PyQt_PyObject')
+
+    def __init__(self, cc):
+        QThread.__init__(self)
+        self.cc = cc
+
+    def run(self):
+        self.cc.initController()
+        if self.cc.fRange == 'lf':
+            self.cc.sweepAntenna(400)
+        else:
+            self.cc.sweepAntenna(300)
+        self.signal.emit('Done')
 
 class EasyCC(QtWidgets.QMainWindow, Ui_ccMain):
     cc = ConfidenceCheck()        
@@ -31,6 +46,8 @@ class EasyCC(QtWidgets.QMainWindow, Ui_ccMain):
         self.updateResultsTable(self.cc.goldenValues)
         self.toggleLogSlot(False)
         self.statusBar().showMessage('Select a frequency range to run')
+        self.antennaThread = AntennaSweepThread(self.cc)
+        self.antennaThread.signal.connect(self.sweepFinished)
 
     @property
     def fRange(self):
@@ -43,12 +60,22 @@ class EasyCC(QtWidgets.QMainWindow, Ui_ccMain):
             self.cc.fRange = val
         else:
             self.cc = ConfidenceCheck(fRange=val)
-
-    def findCheckedRadio(self, group):
-        for radio in group.findChildren(QtWidgets.QRadioButton):
-            if radio.isChecked():
-                return radio
     
+    def standby(self):
+        self.runButton.setText('Run')
+        self.setGroup(self.scanGroup, True)
+        self.cancelButton.setEnabled(False)
+
+    def inProgress(self):
+        self.runButton.setText('Pause')
+        self.setGroup(self.scanGroup, False)
+        self.cancelButton.setEnabled(True)
+
+    def paused(self):
+        self.runButton.setText('Resume')
+        self.setGroup(self.scanGroup, False)
+        self.cancelButton.setEnabled(True)
+
     def setGroup(self, group, abled):
         self.nameEdit.setEnabled(abled)
         self.editFactorsButton.setEnabled(abled)
@@ -66,9 +93,7 @@ class EasyCC(QtWidgets.QMainWindow, Ui_ccMain):
     def updateResultsTable(self, df):
         model = DataFrameModel(df)
         self.resultTable.setModel(model)
-        header = self.resultTable.horizontalHeader()
-        for i in range(len(df)):
-            header.setSectionResizeMode(i, QtWidgets.QHeaderView.ResizeToContents)
+        self.resultTable.resizeColumnsToContents()
 
     def logFactors(self):
         for factor, fp in self.cc.factors.getFactorsDict().items():
@@ -81,41 +106,40 @@ class EasyCC(QtWidgets.QMainWindow, Ui_ccMain):
     def runSlot(self):
         if self.runButton.text() == 'Run':
             self.statusBar().showMessage('Starting Scan')
-            self.setGroup(self.scanGroup, False)
-            self.cancelButton.setEnabled(True)
-            self.runButton.setText('Pause')
+            self.inProgress()
             self.mplWidget.clearPlot()
             self.debugOut(f'{self.nameEdit.text()} executed {self.run} scan')
             self.statusBar().showMessage(self.cc.initAnalyzer())
             try:
                 self.initAnimate()
-                if self.fRange == 'lf':
-                    self.cc.sweepAntenna(400)
-                else:
-                    self.cc.sweepAntenna(300)
-                self.cc.findPeaks()
-                self.updateResultsTable(self.cc.getResultsFrame())
-                if self.cc.checkPass():
-                    self.cc.insertDataToExcel(self.nameEdit.text())
+                self.antennaThread.start()
             except Exception as e:
                 self.debugOut(f'Could not read instruments.\n{e}')
-                self.setGroup(self.scanGroup, True)
-                self.cancelButton.setEnabled(True)
-                self.runButton.setText('Run')
+                self.standby()
                 self.showSettingsSlot()
         elif self.runButton.text() == 'Pause':
-            self.runButton.setText('Resume')
+            self.paused()
             self.ani.event_source.stop()
         elif self.runButton.text() == 'Resume':
-            self.runButton.setText('Pause')
+            self.inProgress()
             self.ani.event_source.start()
 
     @QtCore.pyqtSlot()
-    def cancelSlot(self):
-        self.runButton.setText('Run')
+    def sweepFinished(self):
         self.ani.event_source.stop()
-        self.setGroup(self.scanGroup, True)
-        self.cancelButton.setEnabled(False)
+        self.cc.findPeaks()
+        self.updateResultsTable(self.cc.getResultsFrame())
+        if self.cc.checkPass():
+            self.cc.insertDataToExcel(self.nameEdit.text())
+            self.cc.wb.save()
+            self.statusBar().showMessage('Pass. Data saved')
+        else:
+            self.statusBar().showMessage('Fail')
+
+    @QtCore.pyqtSlot()
+    def cancelSlot(self):
+        self.standby()
+        self.ani.event_source.stop()
 
     def initPlot(self):
         self.line[0].set_ydata([np.nan]*len(self.traceMax))
@@ -124,7 +148,9 @@ class EasyCC(QtWidgets.QMainWindow, Ui_ccMain):
 
     def initAnimate(self):
         self.traceMax = self.cc.readCorrectedTrace(1, 0.5)
+        print(self.traceMax[self.xcol].values, '\n', self.traceMax[self.corrected].values)
         self.traceWrit = self.cc.readCorrectedTrace(2)
+        print(self.traceWrit[self.xcol].values, '\n', self.traceWrit[self.corrected].values)
         self.line = [self.mplWidget.graph(
             x = self.traceMax[self.xcol].values, 
             y = self.traceMax[self.corrected].values, 
@@ -183,7 +209,6 @@ class EasyCC(QtWidgets.QMainWindow, Ui_ccMain):
 
     @QtCore.pyqtSlot()
     def showSettingsSlot(self):
-        self.debugOut('Connection settings')
         ccSettings = SettingsView(ccFile=str(self.cc.filepath), fRange=self.fRange)
         if ccSettings.exec_():
             ccSettings.saveSettings()

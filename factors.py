@@ -47,7 +47,7 @@ class CorrectionFactors:
                 if factor == 'Preamp' and firstValue > 0:
                     cfLocal[fp.stem] *= -1
                 # Ensure all other factors are positive
-                elif factor != 'Preamp' and firstValue < 0:
+                elif factor != ('Preamp' and 'Antenna') and firstValue < 0:
                     cfLocal[fp.stem] *= -1
 
                 self.cf = self.cf.merge(cfLocal, on=self.xcol, how='outer')

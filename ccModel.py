@@ -82,10 +82,19 @@ class ConfidenceCheck:
             self.instruments.sa.resource.close()
             return instId
         except:
-            return 'Connection unsuccessful. Verify connection settings'
+            return 'Analyzer communication unsuccessful. Verify connection settings'
+
+    def initController(self):
+        try:
+            self.instruments.ctrl.establishConnection()
+            instId = str(self.instruments.ctrl)
+            self.instruments.ctrl.resource.close()
+            return instId
+        except:
+            return 'Controller communication unsuccessful. Verify connection settings'
 
     def readCorrectedTrace(self, num_trace=1, delay=0):
-        self.instruments.sa.resource.open()
+        self.instruments.sa.open()
         self.trace = self.instruments.sa.readTrace(num_trace, delay)
 
         # Merge correction factors
@@ -121,12 +130,13 @@ class ConfidenceCheck:
             self.trace.loc[first:last, col] =self.trace.loc[first:last, col].interpolate(method='index')
 
         self.trace[self.corrected] = self.trace[self.ycol] + self.trace['Total Correction Factor']
-
-        self.instruments.sa.resource.close()
+        self.trace.to_csv('test.csv', index=False)
+        self.instruments.sa.close()
         return self.trace
 
     def sweepAntenna(self, maximum):
         # Sweep antenna mast from 100 - maximum
+        self.instruments.ctrl.open()
         self.instruments.ctrl.setPolarity('V')
         self.instruments.ctrl.setSpeed(self.instruments.ctrl, 3)
         self.instruments.ctrl.setPosition(self.instruments.ctrl.tower, 100)
@@ -135,6 +145,7 @@ class ConfidenceCheck:
         self.syncTower()
         self.instruments.ctrl.setPosition(self.instruments.ctrl.tower, 100)
         self.syncTower()
+        self.instruments.ctrl.close()
 
     def syncTower(self):
         # Wait for tower movement to complete
@@ -187,7 +198,7 @@ class ConfidenceCheck:
     def checkPass(self):
         # Check the delta column is not more than +/- 3dB
         passing = True
-        for d in self.resultData['Delta'].values
+        for d in self.resultData['Delta'].values:
             if d > 3 or d < -3:
                 passing = False
                 break

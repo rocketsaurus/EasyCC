@@ -44,7 +44,7 @@ class Instruments:
         self.sa.setVbw(300, 'kHz')
         self.sa.setTraceMode(1, 'MAXH')
         self.sa.setTraceMode(2, 'WRIT')
-        self.sa.autoScale(1)
+        #self.sa.autoScale(1)
 
     def setupReMf(self):
         self.sa.preset()
@@ -56,7 +56,7 @@ class Instruments:
         self.sa.setVbw(3, 'MHz')
         self.sa.setTraceMode(1, 'MAXH')
         self.sa.setTraceMode(2, 'WRIT')
-        self.sa.autoScale(1)
+        #self.sa.autoScale(1)
 
     def setupReHf(self):
         # 18GHz - 40GHz setup
@@ -69,7 +69,7 @@ class Instruments:
         self.sa.setVbw(3, 'MHz')
         self.sa.setTraceMode(1, 'MAXH')
         self.sa.setTraceMode(2, 'WRIT')
-        self.sa.autoScale(1)
+        #self.sa.autoScale(1)
 
     def setupSaSettings(self):
         scanType = {

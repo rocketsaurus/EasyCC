@@ -54,6 +54,12 @@ class BaseInstrument:
             self.resource.close()
         except:
             pass
+    
+    def open(self):
+        try:
+            self.resource.open()
+        except:
+            pass
         
 
     
@@ -236,19 +242,28 @@ class ESW(BaseInstrument):
         '''
         pd.options.display.float_format = '{:.2f}'.format
         sweepPoints = self.getSweepPoints()
-        self.resource.write('FORM REAL, 32')
-        data = self.resource.query_binary_values(f'TRAC:DATA? TRACE{n}', delay=delay, data_points=sweepPoints)
+        if self.connectionType == 'TCPIP':
+            self.resource.write('FORM REAL, 32')
+            data = self.resource.query_binary_values(f'TRAC:DATA? TRACE{n}', delay=delay, data_points=sweepPoints)
+        elif self.connectionType == 'GPIB':
+            if delay:
+                time.sleep(delay)
+            self.resource.write('FORM ASCII')
+            data = self.resource.query(f'TRAC:DATA? TRACE{n}')
+            data = data.replace('\n', '001')
+            data = data.replace('001001', '001')
+            data = data.split(',')
         frequency = np.linspace(self.getFrequencyStart(), self.getFrequencyStop(), len(data))
         df = pd.DataFrame(data={'Frequency (MHz)': frequency, 'Amplitude (dBuV/m)': data})
         df['Amplitude (dBuV/m)'] = df['Amplitude (dBuV/m)'].astype(float)
         return df
 
     def autoScale(self, trace):
-        self.resource.write('DISP:TRAC{}:Y:AUTO ONCE')
+        self.resource.write(f'DISP:TRAC{trace}:Y:AUTO ONCE')
         return self.isOpComplete()
 
     def transducerOn(self, transducer):
-        self.resource.write('SENS1:CORR:TRAN:SEL "{}"'.format(transducer))
+        self.resource.write(f'SENS1:CORR:TRAN:SEL "{transducer}"')
         self.resource.write('CORR:TRAN ON')
 
 
@@ -265,33 +280,33 @@ class EMCenter(BaseInstrument):
             controller = EMCenter(connectionId=7)
             controller.setPosition(controller.tower, 150)
         '''
-        self.resource.write('1{}SK {}\n'.format(device, position))
+        self.resource.write(f'1{device}SK {position}\n')
 
     def setAcceleration(self, device, seconds):
         ''' Seconds values 0.1 to 30.0
             Example
             controller.setAcceleration(controller.tower, 2)
         '''
-        self.resource.write('1{}ACC {}\n'.format(device, seconds))
+        self.resource.write('1{device}ACC {seconds}\n')
 
     def setSpeed(self, device, speed):
         ''' Speed integer 1 to 8 '''
-        self.resource.write('1{}S{}\n'.format(device, speed))
+        self.resource.write(f'1{device}S{speed}\n')
 
     def getSpeed(self, device):
-        return self.resource.query('1{}S?\n'.format(device))
+        return self.resource.query(f'1{device}S?\n')
     
     def getAcceleration(self, device):
-        return self.resource.query('1{}ACC?\n'.format(device))
+        return self.resource.query(f'1{device}ACC?\n')
 
     def getCurrentPosition(self, device):
-        return self.resource.query('1{}CP?\n'.format(device))
+        return self.resource.query(f'1{device}CP?\n')
 
     def getDirection(self, device):
-        return self.resource.query('1{}DIR?\n'.format(device))
+        return self.resource.query(f'1{device}DIR?\n')
 
     def getError(self, device):
-        error = int(self.resource.query('1{}ERR?\n'.format(device)))
+        error = int(self.resource.query(f'1{device}ERR?\n'))
         if error == 1:
             print('Parameters Lost : Set at startup if the EMControl '
                 'detects that previous settings have been lost.')
@@ -334,17 +349,17 @@ class EMCenter(BaseInstrument):
   
     def setPolarity(self, polarity):
         ''' Polarity = V or H '''
-        self.resource.write('1AP{}\n'.format(polarity))
+        self.resource.write(f'1AP{polarity}\n')
 
     def clearStatus(self, device):
-        self.resource.write('1{}*CLS\n'.format(device))
+        self.resource.write(f'1{device}*CLS\n')
 
     def isOpComplete(self, device):
         ''' Returns 1 if in motion'''
-        return int(self.resource.query('1{}*OPC?\n'.format(device)))
+        return int(self.resource.query(f'1{device}*OPC?\n'))
 
     def wait(self, device):
-        self.resource.write('1{}*WAI\n'.format(device))
+        self.resource.writef('1{device}*WAI\n')
 
 def faraday_scan():
     esw = ESW(connectionType='GPIB', connectionId=20, log=True)
@@ -357,8 +372,13 @@ def faraday_scan():
     return esw.readTrace()
 
 if __name__ == '__main__':
-    esw = ESW(connectionType='TCPIP', connectionId='10.0.0.10', log=True)
+    esw = ESW(connectionType='GPIB', connectionId='20', log=True)
     esw.establishConnection()
+    print(esw.resource.query('SYST:ERR?'))
+    #esw = ESW(connectionType='TCPIP', connectionId='10.0.0.10', log=True)
     trace = esw.readTrace(1)
     print(trace)
-
+    """
+    ctrl = EMCenter(connectionType='GPIB', connectionId='7')
+    ctrl.establishConnection()
+    print(ctrl) """
