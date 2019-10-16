@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import time
 import shelve
 from pathlib import Path
@@ -115,6 +116,7 @@ class EasyCC(QtWidgets.QMainWindow, Ui_ccMain):
                 self.antennaThread.start()
             except Exception as e:
                 self.debugOut(f'Could not read instruments.\n{e}')
+                self.statusBar().showMessage(e)
                 self.standby()
                 self.showSettingsSlot()
         elif self.runButton.text() == 'Pause':
@@ -126,15 +128,18 @@ class EasyCC(QtWidgets.QMainWindow, Ui_ccMain):
 
     @QtCore.pyqtSlot()
     def sweepFinished(self):
+        self.standby()
         self.ani.event_source.stop()
         self.cc.findPeaks()
         self.updateResultsTable(self.cc.getResultsFrame())
         if self.cc.checkPass():
             self.cc.insertDataToExcel(self.nameEdit.text())
             self.cc.wb.save()
-            self.statusBar().showMessage('Pass. Data saved')
+            self.statusBar().showMessage('Confidence Check Passed.  Data saved')
+            self.debugOut('Confidence Check Passed.  Data saved')
         else:
-            self.statusBar().showMessage('Fail')
+            self.statusBar().showMessage('Confidence Check Failed')
+            self.debugOut('Confidence Check Failed')
 
     @QtCore.pyqtSlot()
     def cancelSlot(self):
@@ -148,9 +153,7 @@ class EasyCC(QtWidgets.QMainWindow, Ui_ccMain):
 
     def initAnimate(self):
         self.traceMax = self.cc.readCorrectedTrace(1, 0.5)
-        print(self.traceMax[self.xcol].values, '\n', self.traceMax[self.corrected].values)
         self.traceWrit = self.cc.readCorrectedTrace(2)
-        print(self.traceWrit[self.xcol].values, '\n', self.traceWrit[self.corrected].values)
         self.line = [self.mplWidget.graph(
             x = self.traceMax[self.xcol].values, 
             y = self.traceMax[self.corrected].values, 
@@ -203,6 +206,7 @@ class EasyCC(QtWidgets.QMainWindow, Ui_ccMain):
         ccFactors = FactorsView(self.fRange)
         if ccFactors.exec_():
             ccFactors.saveFactors()
+            self.cc.fRange = self.fRange
             self.logFactors()
         else:
             self.debugOut('Factors not saved')

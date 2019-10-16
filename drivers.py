@@ -374,10 +374,9 @@ def faraday_scan():
 if __name__ == '__main__':
     esw = ESW(connectionType='GPIB', connectionId='20', log=True)
     esw.establishConnection()
-    print(esw.resource.query('SYST:ERR?'))
-    #esw = ESW(connectionType='TCPIP', connectionId='10.0.0.10', log=True)
-    trace = esw.readTrace(1)
-    print(trace)
+    for i in range(5):
+        trace = esw.readTrace(1)
+        print(trace)
     """
     ctrl = EMCenter(connectionType='GPIB', connectionId='7')
     ctrl.establishConnection()

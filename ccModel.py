@@ -130,7 +130,6 @@ class ConfidenceCheck:
             self.trace.loc[first:last, col] =self.trace.loc[first:last, col].interpolate(method='index')
 
         self.trace[self.corrected] = self.trace[self.ycol] + self.trace['Total Correction Factor']
-        self.trace.to_csv('test.csv', index=False)
         self.instruments.sa.close()
         return self.trace
 
