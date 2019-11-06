@@ -22,13 +22,15 @@ class AntennaSweepThread(QThread):
     def __init__(self, cc):
         QThread.__init__(self)
         self.cc = cc
+        self.re = ['lf', 'mf', 'hf']
 
     def run(self):
-        self.cc.initController()
-        if self.cc.fRange == 'lf':
-            self.cc.sweepAntenna(400)
-        else:
-            self.cc.sweepAntenna(300)
+        if self.cc.fRange in self.re:
+            self.cc.initController()
+            if self.cc.fRange == 'lf':
+                self.cc.sweepAntenna(400)
+            else:
+                self.cc.sweepAntenna(300)
         self.signal.emit('Done')
 
 class EasyCC(QtWidgets.QMainWindow, Ui_ccMain):
@@ -116,7 +118,6 @@ class EasyCC(QtWidgets.QMainWindow, Ui_ccMain):
                 self.antennaThread.start()
             except Exception as e:
                 self.debugOut(f'Could not read instruments.\n{e}')
-                self.statusBar().showMessage(e)
                 self.standby()
                 self.showSettingsSlot()
         elif self.runButton.text() == 'Pause':
@@ -198,8 +199,16 @@ class EasyCC(QtWidgets.QMainWindow, Ui_ccMain):
         self.radioSelect(self.radioREhf, 'hf')
 
     @QtCore.pyqtSlot()
-    def ceSelectSlot(self):
-        pass
+    def ceLineSelectSlot(self):
+        self.radioSelect(self.radioCELine, 'L')
+
+    @QtCore.pyqtSlot()
+    def ceNeutralSelectSlot(self):
+        self.radioSelect(self.radioCENeutral, 'N')
+
+    @QtCore.pyqtSlot()
+    def ceSignalSelectSlot(self):
+        self.radioSelect(self.radioCESignal, 'S')
 
     @QtCore.pyqtSlot()
     def editFactorsSlot(self):

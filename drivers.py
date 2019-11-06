@@ -266,6 +266,9 @@ class ESW(BaseInstrument):
         self.resource.write(f'SENS1:CORR:TRAN:SEL "{transducer}"')
         self.resource.write('CORR:TRAN ON')
 
+    def rfInput(self, inputChannel=1):
+        self.resource.write(f'INP:TYPE INPUT{inputChannel}')
+
 
 class EMCenter(BaseInstrument):
     def __init__(self, *args, **kwargs):

@@ -24,7 +24,9 @@ class ConfidenceCheck:
             'lf': 'RE 30MHz - 1GHz',
             'mf': 'RE 1GHz - 18GHz',
             'hf': 'RE 18GHz - 40GHz',
-            'ce': 'CE 150kHz - 30MHz',
+            'L': 'CE 150kHz - 30MHz Line',
+            'N': 'CE 150kHz - 30MHz Neutral',
+            'S': 'CE 150kHz - 30MHz Signal',
         }
         self.fRange = fRange
         
@@ -212,8 +214,7 @@ class ConfidenceCheck:
             left_index=True, 
             right_index=True, 
             suffixes=('', self.resultsSuffix))
-        self.resultData['Delta'] = (self.resultData[self.corrected] - 
-            self.resultData[self.corrected + self.resultsSuffix])
+        self.resultData['Delta'] = (self.resultData[self.corrected + self.resultsSuffix] - self.resultData[self.corrected])
         return self.resultData
 
     def save_and_exit(self):

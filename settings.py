@@ -44,7 +44,6 @@ class Instruments:
         self.sa.setVbw(300, 'kHz')
         self.sa.setTraceMode(1, 'MAXH')
         self.sa.setTraceMode(2, 'WRIT')
-        #self.sa.autoScale(1)
 
     def setupReMf(self):
         self.sa.preset()
@@ -56,7 +55,6 @@ class Instruments:
         self.sa.setVbw(3, 'MHz')
         self.sa.setTraceMode(1, 'MAXH')
         self.sa.setTraceMode(2, 'WRIT')
-        #self.sa.autoScale(1)
 
     def setupReHf(self):
         # 18GHz - 40GHz setup
@@ -69,13 +67,28 @@ class Instruments:
         self.sa.setVbw(3, 'MHz')
         self.sa.setTraceMode(1, 'MAXH')
         self.sa.setTraceMode(2, 'WRIT')
-        #self.sa.autoScale(1)
+
+    def setupCe(self):
+        # Conducted Emissions setup
+        self.sa.preset()
+        self.sa.instrumentMode('SAN')
+        self.sa.setSweepPoints(30000)
+        self.sa.setFrequencyStart(150, 'KHz')
+        self.sa.setFrequencyStop(30, 'MHz')
+        self.sa.setRbw(9, 'KHz')
+        self.sa.setVbw(9, 'KHz')
+        self.sa.rfInput(2)
+        self.sa.setTraceMode(1, 'MAXH')
+        self.sa.setTraceMode(2, 'WRIT')
 
     def setupSaSettings(self):
         scanType = {
             'lf': self.setupReLf,
             'mf': self.setupReMf,
             'hf': self.setupReHf,
+            'L': self.setupCe,
+            'N': self.setupCe,
+            'S': self.setupCe,
         }
         func = scanType.get(self.fRange, 'Make a scan selection.')
         func()
